@@ -45,6 +45,8 @@ def portfolio_cost_2():
 if __name__ == "__main__":
     cost = portfolio_cost_2()
     print(cost)
+    portfolio_cost_csv('Data/portfolio.csv')
+
 
 
 """
