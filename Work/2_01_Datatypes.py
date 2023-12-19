@@ -54,12 +54,42 @@ def calculate_portfolio_cost_csv_3(filename):
 def print_portfolio_cost(cost):
     print(cost)
 
-if __name__ == "__main__":
-    total_value = calculate_portfolio_cost_csv_3('Data/portfolio.csv')
-    print_portfolio_cost(total_value)
 
 """
 DICTIONARIES 2.2
 """
+
+def calc_portfolio_dict(filename):
+    import csv
+    total_cost = float()
+    with open(filename, 'rt') as file:
+        text = csv.reader(file)
+        header = next(text)
+        for line in text:
+            d = {
+                header[0]: line[0]
+                ,header[1]: int(line[1])
+                ,header[2]: float(line[2])
+                ,'cost': int(line[1]) * float(line[2])
+            }
+            line_list = list(d)
+            print(line_list)
+            total_cost += d['cost']
+            for key in d:  # iterating over dictionary
+                print(key, d[key]) # prints the key of dict and a value associated with the key
+        keys = d.keys()  # returns dict_keys object
+        print(keys)
+        print(d.items())  # items gives a tuple made aout of dictionary
+        a = d.items()
+        dict_new = dict(a) # creates a dictionary out of tuple created by items() method
+        print(dict_new)
+    return total_cost
+
+if __name__ == "__main__":
+    # total_value = calculate_portfolio_cost_csv_3('Data/portfolio.csv')
+    total_value = calc_portfolio_dict('Data/portfolio.csv')
+    print_portfolio_cost(total_value)
+
+
 
 
