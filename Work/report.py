@@ -33,7 +33,7 @@ def read_portfolio_dict(filename):
 
     return portfolio
 
-def get_prices_2(portfl):
+def get_portfolio_cost(portfl):
     # share_cost = float()
     total_cost = float()
     for row in portfl:
@@ -54,18 +54,87 @@ def read_prices(filename):
     with open(filename, 'rt') as file:
         file_txt = csv.reader(file)
         for line in file_txt:
-            # prices[line[0]] = float(line[1])
             try:
-                print(line[0])
-
-
+                prices[line[0]] = float(line[1])
+            except IndexError:
+                # print('Brak danych')
+                pass
     return prices
 
 
-if __name__ == '__main__':
-    # portfolio = read_portfolio_dict('Data/portfolio.csv')
-    # total_cost = get_prices_2(portfolio)
-    prices = read_prices('Data/prices.csv')
-    print(prices)
+# Exercise 2.7
 
+def get_number_of_shares(filename):
+    shares = {}
+    with open(filename, 'rt') as file:
+        text = csv.reader(file)
+        header = next(file)
+        for line in text:
+            shares = {
+                line[0]: int(line[1])
+            }
+    return shares
+
+
+def prepare_portfolio_with_new_prices(pfolio, new_prices):
+    new_pfolio = []
+    for row in pfolio:
+        for key in new_prices:
+            if str(row[0]) == str(key):
+                new_pfolio.append((key, row[1], row[2], new_prices[key]))  # list of tuples
+
+    return new_pfolio
+
+
+def print_gain_loss(pfolio):
+    for row in pfolio:
+        old_cost = row[1] * row[2]
+        new_cost = row[1] * row[3]
+        if old_cost > new_cost:
+            print(f"Zysk na {row[0]} wynosi {round(old_cost - new_cost, 2)}")
+        elif old_cost < new_cost:
+            print(f"Strata na {row[0]} wynosi {round(new_cost - old_cost, 2)}")
+        else:
+            print(f"Na {row[0]} wyszedłem na 0")
+
+
+def print_total_gain(pfolio):
+    total = float()
+    total_old = float()
+    total_new = float()
+    for row in pfolio:
+        old_cost = round(row[1] * row[2], 2)
+        new_cost = round(row[1] * row[3], 2)
+        total += old_cost - new_cost
+        total_old += old_cost
+        total_new += new_cost
+
+    print("Koszt starego portfolio: ", total_old)
+    print("Koszt nowego portfolio: ", total_new)
+
+    if total < 0.0:
+        print("Strata wyniosła: ", total)
+    elif total > 0.0:
+        print("Zysk wyniósł: ", total)
+    else:
+        print("Wyszedłem na 0")
+
+
+def compare_portfolio(filename_old, filename_new):
+    old_portfolio = read_portfolio(filename_old)  # list of tuples
+    # print(old_portfolio)
+    new_prices = read_prices(filename_new)  # dictionary of new prices
+    new_prices_pfolio = prepare_portfolio_with_new_prices(old_portfolio, new_prices)
+    print_gain_loss(new_prices_pfolio)
+    print_total_gain(new_prices_pfolio)
+
+
+if __name__ == '__main__':
+    #portfolio = read_portfolio_dict('Data/portfolio.csv')
+    #total_cost = get_portfolio_cost(portfolio)
+    #prices = read_prices('Data/prices.csv')
+    #print(prices)
+    #print(total_cost)
+    #print(prices)
+    compare_portfolio('Data/portfolio.csv', 'Data/prices.csv')
     # print_portfolio(portfolio)
