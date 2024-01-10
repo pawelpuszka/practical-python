@@ -105,7 +105,7 @@ def print_total_gain(pfolio):
     for row in pfolio:
         old_cost = round(row[1] * row[2], 2)
         new_cost = round(row[1] * row[3], 2)
-        total += old_cost - new_cost
+        total += new_cost - old_cost
         total_old += old_cost
         total_new += new_cost
 
@@ -120,6 +120,14 @@ def print_total_gain(pfolio):
         print("Wyszedłem na 0")
 
 
+def print_prices_diff(pfolio): # name, shares, old_price, new_price
+    print("{name:>10s} {shares:>15s} {new_price:>15s} {change:>15s}".format(name="Name", shares="Shares", new_price="New price", change="Change"))
+    for row in pfolio:
+        print(f"{row[0]:>10s} {row[1]:>15d} {row[3]:>15.2f} {(row[3] - row[2]):>15.2f}")
+
+
+
+
 def compare_portfolio(filename_old, filename_new):
     old_portfolio = read_portfolio(filename_old)  # list of tuples
     # print(old_portfolio)
@@ -127,7 +135,8 @@ def compare_portfolio(filename_old, filename_new):
     new_prices_pfolio = prepare_portfolio_with_new_prices(old_portfolio, new_prices)
     print_gain_loss(new_prices_pfolio)
     print_total_gain(new_prices_pfolio)
-
+    print()
+    print_prices_diff(new_prices_pfolio)
 
 if __name__ == '__main__':
     #portfolio = read_portfolio_dict('Data/portfolio.csv')
@@ -137,4 +146,5 @@ if __name__ == '__main__':
     #print(total_cost)
     #print(prices)
     compare_portfolio('Data/portfolio.csv', 'Data/prices.csv')
+
     # print_portfolio(portfolio)
