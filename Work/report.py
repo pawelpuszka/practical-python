@@ -120,10 +120,10 @@ def print_total_gain(pfolio):
         print("Wyszedłem na 0")
 
 
-def print_prices_diff(pfolio): # name, shares, old_price, new_price
-    print("{name:>10s} {shares:>15s} {new_price:>15s} {change:>15s}".format(name="Name", shares="Shares", new_price="New price", change="Change"))
+def print_prices_diff(pfolio):  # name, shares, old_price, new_price
+    print("{name:>10s} {shares:>15s} {old_price:>15s} {new_price:>15s} {change:>15s}".format(name="Name", shares="Shares", old_price="Old Price", new_price="New price", change="Change"))
     for row in pfolio:
-        print(f"{row[0]:>10s} {row[1]:>15d} {row[3]:>15.2f} {(row[3] - row[2]):>15.2f}")
+        print(f"{row[0]:>10s} {row[1]:>15d} {row[2]:>15.2f} {row[3]:>15.2f} {(row[3] - row[2]):>15.2f}")
 
 
 
