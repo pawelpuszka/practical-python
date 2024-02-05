@@ -62,3 +62,6 @@ if __name__ == '__main__':
     print(holdings_costs_more_than_10000(portfolio))
 
 
+# 2.20
+    total_value = sum([x[1]*x[2] for x in portfolio])
+    print(total_value)
