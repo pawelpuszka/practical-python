@@ -38,3 +38,5 @@ if __name__ == '__main__':
     print(ibm_shares)
 
 # 2.20
+    total_value = sum([x[1]*x[2] for x in portfolio])
+    print(total_value)
