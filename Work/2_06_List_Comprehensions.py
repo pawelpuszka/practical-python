@@ -26,15 +26,39 @@ share_value = [round(int(val['shares']) * float(val['price']), 2) for val in sha
 total_value = sum(price for price in share_value)
 # print(total_value)
 
+# 2.20
+
+def portfolio_total_cost(portfolio):
+    return sum(round(s[1]*s[2], 2) for s in portfolio)
+
+
+def holdings_with_with_more_than_100_shares(portfolio):
+    holdings = ([x for x in portfolio if x[1] > 100])
+    return holdings
+
+
+def holdings_costs_more_than_10000(portfolio):
+    return [s for s in portfolio if s[1] * s[2] > 10000]
+
+
+def create_tuple(portfolio: dict()):
+    return [(s['name'], s['shares']) for s in portfolio]
+
+
 # Exercises
 if __name__ == '__main__':
     from report import read_portfolio
+    from report import read_portfolio_dict
     from sources import DATA_PORTFOLIO_CSV
 
 # 2.19
     portfolio = read_portfolio(DATA_PORTFOLIO_CSV)
     print(portfolio)
-    ibm_shares = sum([x[1] for x in portfolio if x[0] == 'IBM'])
-    print(ibm_shares)
+    print(portfolio_total_cost(portfolio))
+    print(holdings_with_with_more_than_100_shares(portfolio))
+    # ibm_shares = sum([x[1] for x in portfolio if x[0] == 'IBM'])
+    # print(ibm_shares)
+    print([s for s in portfolio if s[0] in ('IBM', 'MSFT')])
+    print(holdings_costs_more_than_10000(portfolio))
 
-# 2.20
+
