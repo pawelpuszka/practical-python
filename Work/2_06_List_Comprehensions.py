@@ -50,6 +50,7 @@ if __name__ == '__main__':
     from report import read_portfolio
     from report import read_portfolio_dict
     from sources import DATA_PORTFOLIO_CSV
+    from sources import DATA_PORTFOLIO_CSV_2
 
 # 2.19
     portfolio = read_portfolio(DATA_PORTFOLIO_CSV)
@@ -65,3 +66,21 @@ if __name__ == '__main__':
 # 2.20
     total_value = sum([x[1]*x[2] for x in portfolio])
     print(total_value)
+
+    portfolio2 = read_portfolio(DATA_PORTFOLIO_CSV_2)
+    print(portfolio2)
+
+
+# 2.21
+    holdings = [s for s in portfolio if s[1] > 100]
+    print(holdings)
+
+    holdings = [s for s in portfolio if s[0] in ('MSFT', 'IBM')]
+    print(holdings)
+
+    holdings = [s for s in portfolio if s[1] * s[2] > 10000]
+    print(holdings)
+
+
+#2.22
+    portfolio = read_portfolio_dict(DATA_PORTFOLIO_CSV)
