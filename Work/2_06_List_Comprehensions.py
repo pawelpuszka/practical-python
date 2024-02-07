@@ -84,3 +84,23 @@ if __name__ == '__main__':
 
 #2.22
     portfolio = read_portfolio_dict(DATA_PORTFOLIO_CSV)
+    print(portfolio)
+    holdings = [(d['name'], d['shares']) for d in portfolio]
+    print(holdings)
+
+    holdings = {(d['name'], d['shares']) for d in portfolio}
+    print(holdings)
+    names = {d['name'] for d in portfolio}
+    print(names)
+
+    holdings = {name: 0 for name in names}
+    print(holdings)
+    for s in portfolio:
+        # print(holdings[s['name']])
+        holdings[s['name']] += s['shares']
+    print(holdings)
+
+    holdings = [{holdings[s.keys()]: s['price']} for s in portfolio]
+    print(holdings)
+
+#2.23
