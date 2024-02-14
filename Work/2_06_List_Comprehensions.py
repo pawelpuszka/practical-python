@@ -100,7 +100,36 @@ if __name__ == '__main__':
         holdings[s['name']] += s['shares']
     print(holdings)
 
-    holdings = [{holdings[s.keys()]: s['price']} for s in portfolio]
-    print(holdings)
+    # holdings = [{holdings[s.keys()]: s['price']} for s in portfolio]
+    # print(holdings)
 
 #2.23
+    from sources import PORTFOLIODATE_CSV
+    import csv
+
+    def get_header(csv_file):
+        with open(csv_file, 'rt') as file:
+            data = csv.reader(file)
+            header = next(data)
+        return header
+
+
+    # header = get_header(PORTFOLIODATE_CSV)
+    # select = get_header(DATA_PORTFOLIO_CSV)
+    # indices = [header.index(colname) for colname in select]
+    # print(indices)
+
+    selected = get_header(DATA_PORTFOLIO_CSV)
+    print(selected)
+    headers = get_header(PORTFOLIODATE_CSV)
+    indices = [headers.index(colname) for colname in selected]  # [0, 3, 4]
+    print(indices)
+    data_list = list()
+    with open(PORTFOLIODATE_CSV, 'rt') as file:
+        data = csv.reader(file)
+        header = next(data)
+        for row in data:
+            record = {name: row[index] for name, index in zip(selected, indices)}
+            data_list.append(record)
+
+    print(data_list)
