@@ -128,8 +128,6 @@ if __name__ == '__main__':
     with open(PORTFOLIODATE_CSV, 'rt') as file:
         data = csv.reader(file)
         header = next(data)
-        for row in data:
-            record = {name: row[index] for name, index in zip(selected, indices)}
-            data_list.append(record)
+        data_list = [{name: row[index] for name, index in zip(selected, indices)} for row in data]
 
     print(data_list)
