@@ -34,3 +34,15 @@ def read_portfolio(filename):
             portfolio.append(line)
 
     return portfolio
+
+
+def read_portfolio_str(filename):
+    portfolio = []
+    with open(filename, 'rt') as file:
+        file_rows = csv.reader(file)
+        header = next(file_rows)
+        for row in file_rows:
+            line = (row[0], row[1], row[2])
+            portfolio.append(line)
+
+    return portfolio
