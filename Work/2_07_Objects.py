@@ -29,6 +29,7 @@ if isinstance(a, tuple):
 
 # 2.24
 from portfolio_functions import read_portfolio_str
+from portfolio_functions import get_header
 import sources as s
 
 
@@ -54,4 +55,24 @@ if __name__ == "__main__":
 
     print(portfolio3)
 
-# The zipped list is useful if you want to perform conversions on all of the values, one after the other. Try this:
+    portfolio_converted = [row[0](row[1]) for row in portfolio3]
+    print(portfolio_converted)
+
+# 2.25
+    header = get_header(s.DATA_PORTFOLIO_CSV)
+    # print(header)
+    i = 0
+    new_portfolio = list()
+
+    while i < len(portfolio_converted) - 3:
+        p = list()
+        p.append(portfolio_converted[i])
+        p.append(portfolio_converted[i+1])
+        p.append(portfolio_converted[i+2])
+        new_portfolio.append(p)
+        i += 3
+
+    print(new_portfolio)
+
+    new_portfolio = [{row[0]: round(row[1] * row[2], 2)} for row in new_portfolio]
+    print(new_portfolio)
