@@ -1,4 +1,5 @@
 import csv
+import report as r
 
 
 def get_header(csv_file):
@@ -8,7 +9,7 @@ def get_header(csv_file):
     return header
 
 
-def read_portfolio_dict(filename):
+def read_portfolio_dict(filename) -> list:
     portfolio = []
     with open(filename, 'rt') as file:
         file_rows = csv.reader(file)
@@ -20,11 +21,10 @@ def read_portfolio_dict(filename):
                     , header[2]: float(row[2])
             }
             portfolio.append(record)
-
     return portfolio
 
 
-def read_portfolio(filename):
+def read_portfolio(filename) -> list:
     portfolio = []
     with open(filename, 'rt') as file:
         file_rows = csv.reader(file)
@@ -32,11 +32,10 @@ def read_portfolio(filename):
         for row in file_rows:
             line = (row[0], int(row[1]), float(row[2]))
             portfolio.append(line)
-
     return portfolio
 
 
-def read_portfolio_str(filename):
+def read_portfolio_str(filename) -> list:
     portfolio = []
     with open(filename, 'rt') as file:
         file_rows = csv.reader(file)
@@ -44,5 +43,15 @@ def read_portfolio_str(filename):
         for row in file_rows:
             line = (row[0], row[1], row[2])
             portfolio.append(line)
-
     return portfolio
+
+
+def compare_portfolio(filename_old, filename_new):
+    old_portfolio = read_portfolio(filename_old)  # list of tuples
+    # print(old_portfolio)
+    new_prices = r.read_prices(filename_new)  # dictionary of new prices
+    new_prices_pfolio = r.prepare_portfolio_with_new_prices(old_portfolio, new_prices)
+    r.print_gain_loss(new_prices_pfolio)
+    r.print_total_gain(new_prices_pfolio)
+    print()
+    r.print_prices_diff(new_prices_pfolio)
