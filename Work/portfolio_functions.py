@@ -8,7 +8,7 @@ def get_header(csv_file):
     return header
 
 
-def read_portfolio_dict(filename):
+def read_portfolio_dict(filename) -> list:
     portfolio = []
     with open(filename, 'rt') as file:
         file_rows = csv.reader(file)
@@ -42,7 +42,7 @@ def read_portfolio_str(filename):
         file_rows = csv.reader(file)
         header = next(file_rows)
         for row in file_rows:
-            line = (row[0], row[1], row[2])
+            line = [item for item in row]
             portfolio.append(line)
 
     return portfolio
