@@ -41,7 +41,7 @@ def read_portfolio_str(filename) -> list:
         file_rows = csv.reader(file)
         header = next(file_rows)
         for row in file_rows:
-            line = (row[0], row[1], row[2])
+            line = [item for item in row]
             portfolio.append(line)
     return portfolio
 

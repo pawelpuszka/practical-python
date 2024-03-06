@@ -76,3 +76,17 @@ if __name__ == "__main__":
 
     new_portfolio = [{row[0]: round(row[1] * row[2], 2)} for row in new_portfolio]
     print(new_portfolio)
+
+# 2.26
+    from sources import DATA_DOWSTOCKS_CSV
+    from portfolio_functions import read_portfolio_str
+
+    header = get_header(DATA_DOWSTOCKS_CSV)
+    print(header)
+    portfolio = read_portfolio_str(DATA_DOWSTOCKS_CSV)
+    print(portfolio)
+    types = [str, float, str, str, float, float, float, float, int]
+    portfolio_converted = [[type(val) for val, type in zip(line, types)] for line in portfolio]
+    print(portfolio_converted)
+    portfolio_dict = [{head: value for head, value in zip(header, line)} for line in portfolio_converted]
+    print(portfolio_dict)
