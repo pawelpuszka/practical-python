@@ -24,13 +24,13 @@ def parse_csv(filename: str, selected_cols: list = None) -> list:
 
 
 # Exercise 3.5: Performing Type Conversion
-def parse_csv_2(filename: str, selected_cols: list = None, types: list = None, has_header: bool = False) -> list:
+def parse_csv_2(filename: str, delimiter: chr = ' ', selected_cols: list = None, types: list = None, has_header: bool = False) -> list:
     """
     parse a csv file to list of dictionaries
     """
     records = []
     with open(filename, 'rt') as file:
-        data = csv.reader(file)
+        data = csv.reader(file, delimiter=delimiter)
         if not has_header:
             records = [tuple(record) for record in data if record is not None]
             if types:
@@ -48,7 +48,7 @@ def parse_csv_2(filename: str, selected_cols: list = None, types: list = None, h
                         continue
                     records.append(dict(zip(header, row)))
                 if types:
-                    records = [{header: func(item[header]) for item, func, head in zip(record, types, header)} for record in records] # tu jest błąd
+                    records = [{item: func(record[item]) for item, func in zip(record, types) if item in header} for record in records]
 
     return records
 
