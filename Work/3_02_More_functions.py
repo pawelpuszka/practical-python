@@ -61,10 +61,16 @@ if __name__ == "__main__":
     # print(parse_csv_2(DATA_PORTFOLIO_CSV, ['name', 'shares'], [str, float]))
     # print(parse_csv_2(DATA_PORTFOLIO_CSV, has_header=False, types=[str, int, float], selected_cols=['name', 'shares']))
 
-    types = [str, int, float]
+    types = [str, int]
     with open(PRICES_CSV, 'rt') as file:
         data = csv.reader(file)
         records = [tuple(record) for record in data if record is not None]
-        records = [tuple(func(item) for item, func in zip(record, types)) for record in records]
-        print(records)
+        if len(types) != len(records[0]):
+            raise RuntimeError('Wrong number of item in list')
+        try:
+            records = [tuple(func(item) for item, func in zip(record, types)) for record in records if len(record) == len(types)]
+            print(records)
+        except ValueError as e:
+            print(e)
+
 
