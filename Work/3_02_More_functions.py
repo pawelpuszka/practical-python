@@ -28,13 +28,15 @@ def parse_csv_2(filename: str, delimiter: chr = ' ', selected_cols: list = None,
     """
     parse a csv file to list of dictionaries
     """
+    if selected_cols and not has_header:
+        raise RuntimeError("Selected columns should have headers")
     records = []
     with open(filename, 'rt') as file:
         data = csv.reader(file, delimiter=delimiter)
         if not has_header:
             records = [tuple(record) for record in data if record is not None]
             if types:
-                records = [tuple(func(item) for item, func in zip(record, types)) for record in records if record is not None]
+                records = [tuple(func(item) for item, func in zip(record, types)) for record in records]
         else:
             header = next(data)
             records = [{head: item for head, item in zip(header, row)} for row in data if row is not None]
@@ -54,8 +56,15 @@ def parse_csv_2(filename: str, delimiter: chr = ' ', selected_cols: list = None,
 
 
 if __name__ == "__main__":
-    print(parse_csv(DATA_PORTFOLIO_CSV, ['name', 'shares']))
-    # print(parse_csv(DATA_PORTFOLIO_CSV)) PRICES_CSV
+    # print(parse_csv(DATA_PORTFOLIO_CSV, ['name', 'shares']))
+    # print(parse_csv_2(DATA_PORTFOLIO_CSV))
     # print(parse_csv_2(DATA_PORTFOLIO_CSV, ['name', 'shares'], [str, float]))
-    print(parse_csv_2(DATA_PORTFOLIO_CSV, has_header=True, types=[str, int, float]))
+    # print(parse_csv_2(DATA_PORTFOLIO_CSV, has_header=False, types=[str, int, float], selected_cols=['name', 'shares']))
+
+    types = [str, int, float]
+    with open(PRICES_CSV, 'rt') as file:
+        data = csv.reader(file)
+        records = [tuple(record) for record in data if record is not None]
+        records = [tuple(func(item) for item, func in zip(record, types)) for record in records]
+        print(records)
 
