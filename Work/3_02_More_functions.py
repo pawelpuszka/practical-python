@@ -68,7 +68,7 @@ if __name__ == "__main__":
         if len(types) != len(records[0]):
             raise RuntimeError('Wrong number of item in list')
         try:
-            records = [tuple(func(item) for item, func in zip(record, types)) for record in records if len(record) == len(types)]
+            records = [tuple(func(item) for item, func in zip(record, types)) for record in records]
             print(records)
         except ValueError as e:
             print(e)
